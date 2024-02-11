@@ -1,3 +1,4 @@
+//Imports
 import express from "express";
 import routes from "./routes.mjs";
 import path from "path";
@@ -18,15 +19,19 @@ mongoose.connect(uri, {
     useUnifiedTopology: true,
 });
 
+//Body parsing
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, "../frontend/public")))
 
+//Error handling
 app.use((error, request, response, next) => {
     console.error(error.stack);
     response.status(500).json({ error: 'Internal Server Error' });
 });
 
+//Routes
 app.use("/", routes);
 
+//Port
 app.listen(port);
