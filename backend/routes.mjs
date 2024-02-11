@@ -1,3 +1,4 @@
+//Imports
 import express from "express";
 import path from "path";
 import {fileURLToPath} from 'url';
@@ -8,12 +9,14 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+//Handling get requests
 router.get("/", (request, response, next) => {
     response.sendFile(path.join(__dirname, "../frontend/public"), error => {
         if (error) response.status(404).json({message: "Resource was not found"});
     });
 });
 
+//Handling post requests
 router.post("/", async (request, response, next) => {
     try{
         let objectId = new mongoose.Types.ObjectId().toString();
@@ -30,6 +33,7 @@ router.post("/", async (request, response, next) => {
     }
 });
 
+//Handling delete requests
 router.delete("/", async (request, response, next) => {
     try {
         const content = request.body.content;
