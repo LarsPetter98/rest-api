@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 router.get("/", (request, response, next) => {
-    response.sendFile(path.join(__dirname, "../frontend"), error => {
+    response.sendFile(path.join(__dirname, "../frontend/public"), error => {
         if (error) response.status(404).json({message: "Resource was not found"});
     });
 });
