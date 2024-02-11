@@ -1,5 +1,7 @@
+//imports
 import mongoose from "mongoose";
 
+//Create a new mongoose schema
 const noteSchema = mongoose.Schema({
     _id: String,
     content: {
@@ -10,4 +12,5 @@ const noteSchema = mongoose.Schema({
     },
 });
 
+//Create a new mongoose model from the schema
 export default mongoose.model("Note", noteSchema);
