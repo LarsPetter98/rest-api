@@ -20,7 +20,7 @@ mongoose.connect(uri, {
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, "../frontend")))
+app.use(express.static(path.join(__dirname, "../frontend/public")))
 
 app.use((error, request, response, next) => {
     console.error(error.stack);
