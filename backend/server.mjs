@@ -24,6 +24,17 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, "../frontend/public")))
 
+//Cors Handling
+app.use((request, response, next) => {
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    if(request.method === "OPTIONS") {
+        response.header("Access-Control-Allow-Methods", "PUT, POST, PATH, DELETE, GET");
+        return response.status(200).json({});
+    };
+    next();
+});
+
 //Error handling
 app.use((error, request, response, next) => {
     console.error(error.stack);
@@ -33,5 +44,4 @@ app.use((error, request, response, next) => {
 //Routes
 app.use("/", routes);
 
-//Port
 app.listen(port);
