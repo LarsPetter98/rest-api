@@ -9,12 +9,25 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-//Handling get requests
+//Handling get requests to root directory
 router.get("/"), (request, response, next) => {
     response.sendFile(path.join(__dirname, "../frontend/public"), error => {
         if (error) response.status(404).json({message: "Resource was not found"});
     });
 };
+
+//Handling get requests to api/notes
+router.get("/api/notes", async (request, response, next) => {
+    let content = request.query.content;
+    content = content.replace(/\s/g, '');
+    try {
+        const result = await Note.findOne({content: content});
+        response.status(200).json(result);
+    }
+    catch (error) {
+        response.status(500).json({ error: error.message });
+    }
+});
 
 //Handling post requests
 router.post("/api/notes", async (request, response, next) => {
@@ -51,8 +64,6 @@ router.patch("/api/notes", async (request, response, next) => {
         const oldContent = request.body.oldContent; // Original content
         const newContent = request.body.newContent; // Array of update operations
 
-        console.log(oldContent);
-        console.log(newContent);
         await Note.updateOne({content: oldContent}, { $set: {content: newContent}});
         response.status(200).json({message: "Note edited"});
 
